@@ -1,6 +1,7 @@
 import html,pymysql,sys,os
 from werkzeug.utils import secure_filename
 
+
 class XSS:
 
     def escape(self,s):
@@ -25,6 +26,7 @@ class CSRF:
         self.allowed_domains=allowed_domains if (allowed_domains and len(allowed_domains)>0) else []
 
     def validate(self,obj):
+        self.allowed_domains=[obj.host] if (not allowed_domains or len(allowed_domains)==0)
         referer=obj.headers.get('Referer','')
         if referer.strip()=="" or referer.strip().lower()=="null":
             return False
