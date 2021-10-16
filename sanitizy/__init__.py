@@ -52,7 +52,7 @@ class SQL:
         return d
 
 
-class file_upload:
+class FILE_UPLOAD:
 
     def __init__(self,allowed_extensions=['png','jpg','jpeg','gif','pdf'],allowed_mimetypes=["application/pdf","application/x-pdf","image/png","image/jpg","image/jpeg"]):
         self.allowed_extensions=allowed_extensions
