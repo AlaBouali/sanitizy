@@ -34,7 +34,7 @@ class CSRF:
             raise Exception('Invalid request: Non trusted source')
 
 
-class SQL:
+class SQLI:
 
     def escape(self,s):
         return pymysql.converters.escape_string(s)
