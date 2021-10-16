@@ -1,7 +1,6 @@
 import html,pymysql,sys,os
 from werkzeug.utils import secure_filename
 
-
 class XSS:
 
     def escape(self,s):
@@ -28,10 +27,11 @@ class CSRF:
     def validate(self,obj):
         referer=obj.headers.get('Referer','')
         if referer.strip()=="" or referer.strip().lower()=="null":
-            raise Exception('Invalid request: Non trusted source')
+            return False
         a=referer.split("://")[1].split("/")[0]
         if a not in self.allowed_domains:
-            raise Exception('Invalid request: Non trusted source')
+            return False
+        return True
 
 
 class SQLI:
