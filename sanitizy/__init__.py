@@ -1,61 +1,54 @@
-import html,pymysql,sys
+import html,pymysql,sys,os
 from werkzeug.utils import secure_filename
 
-class XSS:
 
-    def __init__(self,obj):
-        self.request=obj
+class XSS:
 
     def escape(self,s):
         return html.escape(s,quote=True)
 
-    def escape_form(self):
+    def escape_form(self,obj):
         d={}
-        for x in dict(self.request.form):
-            d.update({x:self.escape(dict(self.request.form)[x][0])}) if  sys.version_info < (3,0) else d.update({x:self.escape(dict(self.request.form)[x])})
+        for x in dict(obj.form):
+            d.update({x:self.escape(dict(obj.form)[x][0])}) if  sys.version_info < (3,0) else d.update({x:self.escape(dict(obj.form)[x])})
         return d
 
-    def escape_args(self):
+    def escape_args(self,obj):
         d={}
-        for x in dict(self.request.args):
-            d.update({x:self.escape(dict(self.request.form)[x][0])}) if  sys.version_info < (3,0) else d.update({x:self.escape(dict(self.request.form)[x])})
+        for x in dict(obj.args):
+            d.update({x:self.escape(dict(obj.args)[x][0])}) if  sys.version_info < (3,0) else d.update({x:self.escape(dict(obj.args)[x])})
         return d
 
 
 class CSRF:
 
-    def __init__(self,obj,allowed_domains=[]):
-        self.request=obj
-        self.allowed_domains=allowed_domains if (allowed_domains and len(allowed_domains)>0) else [self.request.host]
+    def __init__(self,allowed_domains=[]):
+        self.allowed_domains=allowed_domains if (allowed_domains and len(allowed_domains)>0) else []
 
-    def validate(self):
-        referer=self.request.headers.get('Referer','')
+    def validate(self,obj):
+        referer=obj.headers.get('Referer','')
         if referer.strip()=="" or referer.strip().lower()=="null":
-            return False
+            raise Exception('Invalid request: Non trusted source')
         a=referer.split("://")[1].split("/")[0]
-        if a in self.allowed_domains:
-            return True
-        return False
+        if a not in self.allowed_domains:
+            raise Exception('Invalid request: Non trusted source')
 
 
 class SQL:
 
-    def __init__(self,obj):
-        self.request=obj
-
     def escape(self,s):
         return pymysql.converters.escape_string(s)
 
-    def escape_form(self):
+    def escape_form(self,obj):
         d={}
-        for x in dict(self.request.form):
-            d.update({x:self.escape(dict(self.request.form)[x][0])}) if  sys.version_info < (3,0) else d.update({x:self.escape(dict(self.request.form)[x])})
+        for x in dict(obj.form):
+            d.update({x:self.escape(dict(obj.form)[x][0])}) if  sys.version_info < (3,0) else d.update({x:self.escape(dict(obj.form)[x])})
         return d
 
-    def escape_args(self):
+    def escape_args(self,obj):
         d={}
-        for x in dict(self.request.args):
-            d.update({x:self.escape(dict(self.request.form)[x][0])}) if  sys.version_info < (3,0) else d.update({x:self.escape(dict(self.request.form)[x])})
+        for x in dict(obj.args):
+            d.update({x:self.escape(dict(obj.args)[x][0])}) if  sys.version_info < (3,0) else d.update({x:self.escape(dict(obj.args)[x])})
         return d
 
 
@@ -86,5 +79,8 @@ class file_upload:
     def secure_filename(self,f):
         return secure_filename(".".join(f.filename.split(".")[:2]))
 
-    def save_file(self,f):
-        f.save(self.secure_filename(f))
+    def save_file(self,f,path):
+        os.makedirs(path, exist_ok=True)
+        file_path=path+self.secure_filename(f) if (path[-1]=="/" or path[-1]=="\\") else (path+'/'+self.secure_filename(f) if sys.platform.startswith('win')==False else path+'\\'+self.secure_filename(f))
+        f.save(file_path)
+        return file_path
