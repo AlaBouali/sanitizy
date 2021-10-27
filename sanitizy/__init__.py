@@ -4,29 +4,29 @@ from werkzeug.utils import secure_filename
 
 class XSS:
 
-    def escape(self,s):
+    def escape(s):
         return html.escape(s,quote=True)
 
     def escape_form(self,obj):
         d={}
         for x in dict(obj.form):
-            d.update({x:self.escape(dict(obj.form)[x][0])}) if  sys.version_info < (3,0) else d.update({x:self.escape(dict(obj.form)[x])})
+            d.update({x:XSS.escape(dict(obj.form)[x][0])}) if  sys.version_info < (3,0) else d.update({x:XSS.escape(dict(obj.form)[x])})
         return d
 
     def escape_args(self,obj):
         d={}
         for x in dict(obj.args):
-            d.update({x:self.escape(dict(obj.args)[x][0])}) if  sys.version_info < (3,0) else d.update({x:self.escape(dict(obj.args)[x])})
+            d.update({x:XSS.escape(dict(obj.args)[x][0])}) if  sys.version_info < (3,0) else d.update({x:XSS.escape(dict(obj.args)[x])})
         return d
 
 
 class CSRF:
 
     def __init__(self,allowed_domains=[]):
-        self.allowed_domains=allowed_domains if (allowed_domains and len(allowed_domains)>0) else []
+        if (allowed_domains and len(allowed_domains)>0): self.allowed_domains=allowed_domains
 
     def validate(self,obj):
-        self.allowed_domains=[obj.host] if (not allowed_domains or len(allowed_domains)==0)
+        self.allowed_domains=[obj.host] if (not allowed_domains or len(allowed_domains)==0) else []
         referer=obj.headers.get('Referer','')
         if referer.strip()=="" or referer.strip().lower()=="null":
             return False
@@ -38,19 +38,19 @@ class CSRF:
 
 class SQLI:
 
-    def escape(self,s):
+    def escape(s):
         return pymysql.converters.escape_string(s)
 
     def escape_form(self,obj):
         d={}
         for x in dict(obj.form):
-            d.update({x:self.escape(dict(obj.form)[x][0])}) if  sys.version_info < (3,0) else d.update({x:self.escape(dict(obj.form)[x])})
+            d.update({x:SQLI.escape(dict(obj.form)[x][0])}) if  sys.version_info < (3,0) else d.update({x:SQLI.escape(dict(obj.form)[x])})
         return d
 
     def escape_args(self,obj):
         d={}
         for x in dict(obj.args):
-            d.update({x:self.escape(dict(obj.args)[x][0])}) if  sys.version_info < (3,0) else d.update({x:self.escape(dict(obj.args)[x])})
+            d.update({x:SQLI.escape(dict(obj.args)[x][0])}) if  sys.version_info < (3,0) else d.update({x:SQLI.escape(dict(obj.args)[x])})
         return d
 
 
