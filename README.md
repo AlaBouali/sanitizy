@@ -11,6 +11,7 @@ This is a simple and very light weight python package to help securing python we
 <div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">sanitizy.XSS.escape_args(request)#produces a dict with escaped values  </pre></div>
 <h4> Escpae all Flask's paramaters POST:</h4>
 <div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">sanitizy.XSS.escape_form(request)#produces a dict with escaped values </pre></div>
+
 <h3> SQL-Injection:</h3>
 <h4> Escpae some value:</h4>
 <div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">import sanitizy
@@ -19,3 +20,8 @@ This is a simple and very light weight python package to help securing python we
 <div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">sanitizy.SQLI.escape_args(request)#produces a dict with escaped values </pre></div>
 <h4> Escpae all Flask's paramaters POST:</h4>
 <div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">sanitizy.SQLI.escape_form(request)#produces a dict with escaped values </pre></div>
+
+<h3> CSRF:</h3>
+<h4> Check if the request is coming from the application itself or not:</h4>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">import sanitizy
+<br>sanitizy.CSRF.validate(request)#returns 'True' if it's safe and 'False' if not  </pre></div>
