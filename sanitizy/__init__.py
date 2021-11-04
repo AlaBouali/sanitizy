@@ -130,14 +130,14 @@ class FORM_INPUTS:
         return s.strip()[0]=="+" and FORM_INPUTS.numeric(s.strip()[1:] if replace_mines==False else s.strip()[1:].replace('-',' '),length=length)
 
 
-class SAFE_TO_LOAD:
+class PATH_TRAVERSAL:
 
     @staticmethod
     def check(path):
         return os.path.realpath(path).startswith(os.getcwd())
 
 
-class NO_RCE:
+class RCE:
 
     @staticmethod
     def command(cmd,length=(1,20),values_to_replace=safe_command_characters):
