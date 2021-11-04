@@ -3,7 +3,6 @@ from werkzeug.utils import secure_filename
 
 
 
-
 class XSS:
 
     @staticmethod
@@ -28,9 +27,18 @@ class XSS:
 class CSRF:
 
     @staticmethod
-    def validate(obj,allowed_domains=[]):
+    def validate_flask(obj,allowed_domains=[]):
         self.allowed_domains=[obj.host] if (not allowed_domains or len(allowed_domains)==0) else allowed_domains
         referer=obj.headers.get('Referer','')
+        if referer.strip()=="" or referer.strip().lower()=="null":
+            return False
+        a=referer.split("://")[1].split("/")[0]
+        if a not in self.allowed_domains:
+            return False
+        return True
+
+    @staticmethod
+    def validate(referer,allowed_domains):
         if referer.strip()=="" or referer.strip().lower()=="null":
             return False
         a=referer.split("://")[1].split("/")[0]
