@@ -2,9 +2,6 @@ import html,pymysql,sys,os,re
 from werkzeug.utils import secure_filename
 
 
-safe_command_characters=["-","+","/","*","_",",","'",'"','.','\\',':',"#","!","?","%","[","]","{","}","=","~","<",">","^"]
-safe_eval_characters=["-","+","/","*","%",".","(","[","]",",","{","}","=","<",">","'",'"','!',':']
-
 
 
 class XSS:
@@ -139,14 +136,17 @@ class PATH_TRAVERSAL:
 
 class RCE:
 
+    safe_command_characters=["-","+","/","*","_",",","'",'"','.','\\',':',"#","!","?","%","[","]","{","}","=","~","<",">","^"]
+    safe_eval_characters=["-","+","/","*","%",".","(","[","]",",","{","}","=","<",">","'",'"','!',':']
+    
     @staticmethod
-    def command(cmd,length=(1,100),values_to_replace=safe_command_characters,replaced_value=" "):
-        for x in values_to_replace:
+    def command(cmd,length=(1,100),replaced_value=" "):
+        for x in RCE.safe_command_characters:
             cmd=cmd.replace(x,replaced_value)
         return FORM_INPUTS.alphanumeric(cmd,length=length)
 
     @staticmethod
-    def eval(cmd,length=(1,20),values_to_rplace=safe_eval_characters,replaced_value=" "):
-        for x in values_to_replace:
+    def eval(cmd,length=(1,20),replaced_value=" "):
+        for x in RCE.safe_eval_characters:
             cmd=cmd.replace(x,replaced_value)
         return FORM_INPUTS.alphanumeric(cmd,length=length)
