@@ -1,5 +1,10 @@
-import html,pymysql,sys,os,re
+import html,pymysql,sys,os,re,subprocess,shlex
 from werkzeug.utils import secure_filename
+
+
+safe_command_characters=["-","+","/","*","_",",","'",'"','.','\\',':',"#","!","?","%","[","]","{","}","=","~","<",">","^"]
+safe_eval_characters=["-","+","/","*","%"]
+
 
 
 class XSS:
@@ -130,3 +135,18 @@ class SAFE_TO_LOAD:
     @staticmethod
     def check(path):
         return os.path.realpath(path).startswith(os.getcwd())
+
+
+class NO_RCE:
+
+    @staticmethod
+    def command(cmd,length=(1,20),values_to_replace=safe_command_characters):
+        for x in values_to_replace:
+            cmd=cmd.replace(x,' ')
+        return FORM_INPUTS.alphanumeric(cmd,length=length)
+
+    @staticmethod
+    def eval(cmd,length=(1,20),values_to_rplace=safe_eval_characters):
+        for x in values_to_replace:
+            cmd=cmd.replace(x,' ')
+        return FORM_INPUTS.numeric(cmd,length=length)
