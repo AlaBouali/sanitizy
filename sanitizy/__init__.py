@@ -3,7 +3,7 @@ from werkzeug.utils import secure_filename
 
 
 safe_command_characters=["-","+","/","*","_",",","'",'"','.','\\',':',"#","!","?","%","[","]","{","}","=","~","<",">","^"]
-safe_eval_characters=["-","+","/","*","%"]
+safe_eval_characters=["-","+","/","*","%","."]
 
 
 
@@ -140,7 +140,7 @@ class PATH_TRAVERSAL:
 class RCE:
 
     @staticmethod
-    def command(cmd,length=(1,20),values_to_replace=safe_command_characters):
+    def command(cmd,length=(1,100),values_to_replace=safe_command_characters):
         for x in values_to_replace:
             cmd=cmd.replace(x,' ')
         return FORM_INPUTS.alphanumeric(cmd,length=length)
