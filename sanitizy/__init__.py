@@ -28,12 +28,12 @@ class CSRF:
 
     @staticmethod
     def validate_flask(obj,allowed_domains=[]):
-        self.allowed_domains=[obj.host] if (not allowed_domains or len(allowed_domains)==0) else allowed_domains
+        domains=[obj.host] if (not allowed_domains or len(allowed_domains)==0) else allowed_domains
         referer=obj.headers.get('Referer','')
         if referer.strip()=="" or referer.strip().lower()=="null":
             return False
         a=referer.split("://")[1].split("/")[0]
-        if a not in self.allowed_domains:
+        if a not in domains:
             return False
         return True
 
@@ -42,7 +42,7 @@ class CSRF:
         if referer.strip()=="" or referer.strip().lower()=="null":
             return False
         a=referer.split("://")[1].split("/")[0]
-        if a not in self.allowed_domains:
+        if a not in allowed_domains:
             return False
         return True
 
@@ -72,30 +72,34 @@ class FILE_UPLOAD:
 
     @staticmethod
     def check_file(f,allowed_extensions=['png','jpg','jpeg','gif','pdf'],allowed_mimetypes=["application/pdf","application/x-pdf","image/png","image/jpg","image/jpeg"]):
-        return self.valid_file(f,allowed_extensions,allowed_mimetypes)
+        return FILE_UPLOAD.valid_file(f,allowed_extensions,allowed_mimetypes)
 
-    def valid_extension(self,f,extentions):
+    @staticmethod
+    def valid_extension(f,extentions):
         try:
             return f.split(".")[1].lower() in extentions
         except:
             return False
 
-    def valid_mimetype(self,f,mimetypes):
+    @staticmethod
+    def valid_mimetype(f,mimetypes):
         try:
             return f.content_type.lower() in mimetypes
         except:
             return False
 
-    def valid_file(self,f,extentions,mimetypes):
-        return self.valid_extension(self.secure_filename(f),extentions) and self.valid_mimetype(f,mimetypes)
+    @staticmethod
+    def valid_file(f,extentions,mimetypes):
+        return FILE_UPLOAD.valid_extension(FILE_UPLOAD.secure_filename(f),extentions) and FILE_UPLOAD.valid_mimetype(f,mimetypes)
 
-    def secure_filename(self,f):
+    @staticmethod
+    def secure_filename(f):
         return secure_filename(".".join(f.filename.split(".")[:2]))
 
     @staticmethod
     def save_file(f,path=""):
         os.makedirs(path, exist_ok=True)
-        file_path=path+self.secure_filename(f) if (path[-1]=="/" or path[-1]=="\\") else (path+'/'+self.secure_filename(f) if sys.platform.startswith('win')==False else path+'\\'+self.secure_filename(f))
+        file_path=path+FILE_UPLOAD.secure_filename(f) if (path[-1]=="/" or path[-1]=="\\") else (path+'/'+FILE_UPLOAD.secure_filename(f) if sys.platform.startswith('win')==False else path+'\\'+FILE_UPLOAD.secure_filename(f))
         f.save(file_path)
         return file_path
 
