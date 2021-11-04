@@ -1,9 +1,9 @@
-import html,pymysql,sys,os,re,subprocess,shlex
+import html,pymysql,sys,os,re
 from werkzeug.utils import secure_filename
 
 
 safe_command_characters=["-","+","/","*","_",",","'",'"','.','\\',':',"#","!","?","%","[","]","{","}","=","~","<",">","^"]
-safe_eval_characters=["-","+","/","*","%","."]
+safe_eval_characters=["-","+","/","*","%",".","(","[","]",",","{","}","=","<",">"]
 
 
 
@@ -149,4 +149,4 @@ class RCE:
     def eval(cmd,length=(1,20),values_to_rplace=safe_eval_characters,replaced_value=" "):
         for x in values_to_replace:
             cmd=cmd.replace(x,replaced_value)
-        return FORM_INPUTS.numeric(cmd,length=length)
+        return FORM_INPUTS.alphanumeric(cmd,length=length)
