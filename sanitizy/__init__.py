@@ -140,13 +140,13 @@ class PATH_TRAVERSAL:
 class RCE:
 
     @staticmethod
-    def command(cmd,length=(1,100),values_to_replace=safe_command_characters):
+    def command(cmd,length=(1,100),values_to_replace=safe_command_characters,replaced_value=" "):
         for x in values_to_replace:
-            cmd=cmd.replace(x,' ')
+            cmd=cmd.replace(x,replaced_value)
         return FORM_INPUTS.alphanumeric(cmd,length=length)
 
     @staticmethod
-    def eval(cmd,length=(1,20),values_to_rplace=safe_eval_characters):
+    def eval(cmd,length=(1,20),values_to_rplace=safe_eval_characters,replaced_value=" "):
         for x in values_to_replace:
-            cmd=cmd.replace(x,' ')
+            cmd=cmd.replace(x,replaced_value)
         return FORM_INPUTS.numeric(cmd,length=length)
