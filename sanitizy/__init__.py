@@ -167,7 +167,7 @@ class SSRF:
 
     @staticmethod
     def validate(adr):
-        adr=adr.split(":")[0] if "://" not in adr[10] else adr.split("://")[1].split('/')[0].split(":")[0]
+        adr=adr.split(":")[0] if "://" not in adr else adr.split("://")[1].split('/')[0].split(":")[0]
         try:
             a=socket.gethostbyname(adr.split(':')[0]).split('.')
         except:
