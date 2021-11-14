@@ -29,9 +29,10 @@ This is a simple and very light weight python package to help securing python we
 <div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">CSRF.validate_flask(request)#returns 'True' if it's safe and 'False' if not  </pre></div>
 
 <h3> SSRF:</h3>
-<h4> Validate if the value can lead to a SSRF:</h4>
-<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">SSRF.validate("http://localhost:22",length=(1,50))#returns 'True' if it's safe and 'False' if not  </pre></div>
-
+<h4> Validate if the url can lead to a SSRF:</h4>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">SSRF.validate("http://localhost:22",url=True)#returns 'True' if it's safe and 'False' if not  </pre></div>
+<h4> Validate if the domain can lead to a SSRF:</h4>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">SSRF.validate("localhost:22",url=False)#returns 'True' if it's safe and 'False' if not  </pre></div>
 
 
 <h3> File Upload:</h3>
