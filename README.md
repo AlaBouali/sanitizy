@@ -71,7 +71,7 @@ This is a simple and very light weight python package to help securing python we
 
 <h4> Check if value matches a specific Regex:</h4>
 <div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">FORM_INPUTS.regex_match("alabouali@gmail.com",r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b',length=(6,15))#returns 'True' if it's correct and 'False' if not  </pre></div>
-<h3> Validate User Inputs:</h3>
+<h3> SSRF:</h3>
 <h4> Validate if the paramater have a possible SSRF:</h4>
 <div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">SSRF.validate("http://localhost:22",length=(1,50))#returns 'True' if it's safe and 'False' if not  </pre></div>
 
