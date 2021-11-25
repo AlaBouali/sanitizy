@@ -1,4 +1,4 @@
-import html,pymysql,sys,os,re,urllib.parse.urlparse
+import html,pymysql,sys,os,re,socket
 from werkzeug.utils import secure_filename
 
 
@@ -166,16 +166,16 @@ class RCE:
 class SSRF:
 
     @staticmethod
-    def validate(adr):
-        adr=adr.split(":")[0] if "://" not in adr else adr.split("://")[1].split('/')[0].split(":")[0]
+    def validate(adr,url=True):
+        adr=adr.split(":")[0] if url==False else adr.split("://")[1].split('/')[0].split(":")[0]
         try:
             a=socket.gethostbyname(adr.split(':')[0]).split('.')
         except:
             return False
-        f=[10,169,172,198,127,192]
+        f=[169,172,198,192]
         o1=int(a[0])
         o2=int(a[1])
-        if o1==127 or o1==10:
+        if o1 in [127,10,0]:
             return False
         if o1 in f:
             if ((o1==192)and(o2==168)):
