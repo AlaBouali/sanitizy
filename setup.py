@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="sanitizy",
-    version="1.1.0",
+    version="1.1.1",
     author="AlaBouali",
     author_email="trap.leader.123@gmail.com",
     description="Helpful module to secure flask apps",
